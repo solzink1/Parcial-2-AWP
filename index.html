@@ -4,34 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
+    <link  rel="icon"   href="img/icons/icon-192x192.png" type="image/png" />
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json" />
+    <link href="css/estilos.css" rel="stylesheet">
     <title>Zink Sol DWN3A - Aplicaciones Web Progresivas TP2</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
 
-    
-
-    <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link href="css/estilos.css" rel="stylesheet">
   </head>
   <body class="d-flex h-100 text-center text-white bg-dark">
     
@@ -39,7 +19,7 @@
   <header class="mb-auto">
     <div>
       <h3 class="float-md-start mb-0">space.cinema</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
+      <nav class="nav nav-masthead justify-content-center float-md-end" id="navbar">
         <a class="nav-link active" aria-current="page" href="#">Inicio</a>
         <a class="nav-link" href="#">Pagina por mirar</a>
         <a class="nav-link" href="#">¿No sabes que ver?</a>
@@ -47,16 +27,21 @@
     </div>
   </header>
 
-  <main class="px-3">
-    <h1>¡Busca la pelicula que quieras!</h1>
-    <p class="lead">Tenemos las peliculas mas populares</p>
-            <input class="form-control mr-sm-2 boton1" type="buscar" placeholder="Buscar" aria-label="buscar">
-            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
-  </main>
+  <main class="px-3" id="main">
 
+  </main>
   <footer class="mt-auto text-white-50">
     <p>Zink Sol DWN3A - Aplicaciones Web Progresivas</p>
+    <div id="estado1">
+        <button class="btn btn-success" id="button" type="button" disabled>
+         Online
+        </button>
+    </div>
   </footer>
 </div>  
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
+

@@ -75,3 +75,57 @@ h3 {
   font-size: 1.5em;
   line-height: 1.5em;
 }
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+footer p{
+  margin-bottom: 0;
+}
+
+.card {
+  margin-top: 2em;
+  margin: auto;
+  width: 70%;
+  transition: transform 250ms;
+}
+
+.card:hover{
+  transform: translateY(-10px);
+}
+
+img{
+  width: 70% !important;
+  margin: auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.card-title{
+  color: black;
+  font-size: 1.5em;
+}
+
+.card-text{
+  color: black;
+}
+
+.form-control{
+  transition: transform 250ms;
+  margin-top: 2em;
+}
+
+.form-control:hover{
+  transform: translateY(-10px);
+}
