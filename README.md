@@ -1,2 +1,2 @@
-# Parcial-2-AWP
- Buscador de películas
+Zink, Sol Candela
+DWN3A - Aplicaciones Web Progresivas
