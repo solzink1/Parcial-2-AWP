@@ -100,6 +100,7 @@ sendButton.addEventListener("click", () =>  {
     input.value = "";
     cargando.classList.remove('d-none');
     cargando.classList.add('d-block');
+    cargando.classList.add('mt-2');
 });
 
 function buscarEnAPI(buscarPalabra){
