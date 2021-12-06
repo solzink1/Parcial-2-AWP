@@ -50,6 +50,8 @@ const agregarBoton = document.createElement('button');
 const eliminarBoton = document.createElement('button');
 
 function crearInicio(){
+
+    h1.classList.add('mt-1');
     p.classList.add('lead');
     input.classList.add('form-control');
     input.classList.add('mr-sm-2');
