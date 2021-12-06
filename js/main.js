@@ -101,7 +101,7 @@ sendButton.addEventListener("click", () =>  {
 });
 
 function buscarEnAPI(buscarPalabra){
-    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${buscarPalabra}`)
+    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${buscarPalabra}`)
     .then(function(response){
         console.log(response);
         return response.json();
