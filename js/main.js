@@ -4,7 +4,8 @@ window.addEventListener("online", (event) => {
     button.classList.add('btn-success');
     button.classList.remove("btn-danger");
 
-    button.innerHTML = (`Online `);
+    button.innerHTML = 'Online ';
+
 });
 
 window.addEventListener("offline", (event) => {
@@ -13,7 +14,7 @@ window.addEventListener("offline", (event) => {
     button.classList.remove("btn-success");
     button.classList.add('btn-danger');
 
-    button.innerHTML = (`Offline `);
+    button.innerHTML = 'Offline ';
 });
  
 if (!navigator.onLine) {
@@ -22,7 +23,14 @@ if (!navigator.onLine) {
     button.classList.remove("btn-success");
     button.classList.add('btn-danger');
 
-    button.innerHTML = (`Offline `);
+    button.innerHTML = 'Offline ';
+} else {
+    let button = document.getElementById("button");
+    
+    button.classList.add('btn-success');
+    button.classList.remove("btn-danger");
+
+    button.innerHTML = 'Online ';
 }
 
 const main = document.getElementById('main');
@@ -37,9 +45,7 @@ const title = document.createElement("h5");
 const cardText = document.createElement("p");
 const genero = document.createElement("p");
 const buscar = document.createElement("p");
-const error = document.createElement('p');
 const lista = document.createElement('p');
-const contenido = document.getElementById('contenido');
 const agregarBoton = document.createElement('button');
 const eliminarBoton = document.createElement('button');
 
@@ -85,13 +91,16 @@ const API_KEY = "dc600162";
 
 const sendButton = document.getElementById("button1");
 const inputElement = document.getElementById("input"); 
+const cargando = document.getElementById('spinner');
 
 sendButton.addEventListener("click", () =>  {
-    buscarEnAPI(inputElement.value);
+    buscarEnAPI(inputElement.value);    
+    input.value = "";
+    cargando.classList.remove('d-none');
+    cargando.classList.add('d-block');
 });
 
 function buscarEnAPI(buscarPalabra){
-    console.log("valor", buscarPalabra);
     fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${buscarPalabra}`)
     .then(function(response){
         console.log(response);
@@ -107,19 +116,19 @@ function buscarEnAPI(buscarPalabra){
 
 function mostrarResultados(data){
     eliminarInicio();
-    
+    cargando.remove();
     if (data.Response == 'False') {
         buscar.innerHTML = '¡No se encontro la pelicula que estabas buscando! Ingresa un nombre nuevo';
-        
-        main.appendChild(error);
+
+        buscar.classList.add('lead');
+
+        main.appendChild(buscar);
         main.appendChild(input);
         main.appendChild(button);
 
         card.remove();
         cardBody.remove();
     } else {
-        error.remove();
-
         lista.classList.add('lista');
         lista.classList.add('card-text');
         card.classList.add('card');
@@ -143,6 +152,7 @@ function mostrarResultados(data){
         lista.innerHTML = (`¡Si te gusto esta pelicula agregala a la lista!`)
 
         poster.setAttribute("src", `${data.Poster}`);
+        cardBody.setAttribute("id","card-body");
 
         main.appendChild(buscar);
         main.appendChild(input);
@@ -154,46 +164,55 @@ function mostrarResultados(data){
         cardBody.appendChild(genero);
         cardBody.appendChild(cardText);       
         cardBody.appendChild(lista);
-        card.appendChild(botonAgregar(data));
-        card.appendChild(botonEliminar(data));
+
+        const lista1 = JSON.parse(localStorage.getItem('Respuesta API'));
+
+        if (lista1 != null) {
+            const estaEnLista = lista1.some(item => item.Title === data.Title);
+
+            if (estaEnLista){
+                botonEliminar(data);
+            }  else {
+                botonAgregar(data);
+            }
+        } else {
+            botonAgregar(data);
+        }
     }
-};
-error.remove();
+}
 card.remove();
 cardBody.remove();
 
  function botonAgregar(data){
-     let div = document.createElement('div');
+     let buscarCard = document.getElementById('card-body');
      
      agregarBoton.classList.add('agregar');
      agregarBoton.classList.add('btn');
      agregarBoton.classList.add('btn-success');
      agregarBoton.innerHTML = 'Agregar';
 
-     agregarBoton.addEventListener('click', () =>{
+     agregarBoton.addEventListener('click', () => {
         guardarPelicula(data);
         agregarBoton.remove();
         botonEliminar(data);
      })
-     card.appendChild(div);
-     div.appendChild(agregarBoton);
+     buscarCard.appendChild(agregarBoton);
 }
 
 function botonEliminar(data){
-    let div = document.createElement('div');
+    let buscarCard = document.getElementById('card-body');
 
     eliminarBoton.classList.add('eliminar');
     eliminarBoton.classList.add('btn');
     eliminarBoton.classList.add('btn-danger');
     eliminarBoton.innerHTML = 'Eliminar';
 
-    eliminarBoton.addEventListener('click', () =>{
+    eliminarBoton.addEventListener('click', () => {
         eliminarPelicula(data);
         eliminarBoton.remove();
         botonAgregar(data);
     })
-    card.appendChild(div);
-    div.appendChild(eliminarBoton);
+    buscarCard.appendChild(eliminarBoton);
 }
 
 const guardarPelicula = (data) => {
@@ -203,8 +222,8 @@ const guardarPelicula = (data) => {
         nuevaLista1.push(data);
         localStorage.setItem('Respuesta API', JSON.stringify(nuevaLista1));
     } else {
-        const estaEnLista1 = lista1.some(item => item.Title === data.Title);
-        if (!estaEnLista1) {
+        const estaEnLista = lista1.some(item => item.Title === data.Title);
+        if (!estaEnLista) {
             lista1.push(data);
             localStorage.setItem('Respuesta API', JSON.stringify(lista1));
         }
@@ -218,31 +237,11 @@ function eliminarPelicula(data) {
         nuevaLista2.push(data);
         localStorage.setItem('Respuesta API', JSON.stringify(nuevaLista2));
     } else {
-        const estaEnLista2 = lista2.some(item => item.Title === data.Title);
-        if (estaEnLista2) {
+        const estaEnLista = lista2.some(item => item.Title === data.Title);
+        if (estaEnLista) {
             let nuevaLista2 = lista2.filter(item => item.Title !== data.Title);
             localStorage.setItem('Respuesta API', JSON.stringify(nuevaLista2));
        }
-    }
-}
-
-const storage = JSON.parse(localStorage.getItem('Respuesta API'));
-
-function listaVacia() {
-    if (storage === null ||storage.length === 0) {
-    let p = document.createElement('p');
-    let botonListaVacia = document.createElement('a');
-
-        p.classList.add('lead');
-        p.innerHTML = '¡Todavia no agregaste peliculas a la lista!'
-
-        botonListaVacia.classList.add('btn');
-        botonListaVacia.classList.add('btn-outline-light');
-        botonListaVacia.innerHTML ='Agregar nueva pelicula';
-        botonListaVacia.setAttribute("href", "index.html");
-
-        contenido.appendChild(p);
-        contenido.appendChild(botonListaVacia);
     }
 }
 
@@ -250,44 +249,58 @@ function listaPeliculas() {
     const mostrarLista = JSON.parse(localStorage.getItem('Respuesta API'));
     main.innerHTML ="";
 
-    if (mostrarLista != null && mostrarLista-length !== 0){
+    let listaVacia = document.getElementById('lista-vacia');
+    listaVacia.classList.remove('d-none');
+    listaVacia.classList.add('d-block');
+    
+    if (mostrarLista != null && mostrarLista.length !== 0){
+
         for (let peliculas of mostrarLista) {
-            let div = document.createElement('div');
-            let eliminarBoton = document.createElement('button');
-        
+
+            let card = document.createElement("div");
             card.classList.add('card');
             card.classList.add('mb-4');
             card.classList.add('mt-5');
+            main.appendChild(card);
+
+            let poster = document.createElement("img");
             poster.classList.add('card-img-top');
             poster.classList.add('img-fluid');
+            poster.setAttribute("src", `${peliculas.Poster}`);
+            card.appendChild(poster);
+
+            let cardBody= document.createElement("div");
             cardBody.classList.add('card-body');
+            card.appendChild(cardBody);
+
+            let title = document.createElement("h5");
             title.classList.add('card-title');
+            title.innerHTML = (`${peliculas.Title}`);
+            cardBody.appendChild(title);     
+            
+            let genero = document.createElement("p");
+            genero.classList.add('card-text');  
+            genero.innerHTML = (`${peliculas.Genre}`);
+            cardBody.appendChild(genero);            
+            
+            let cardText = document.createElement("p");
             cardText.classList.add('card-text');
-            genero.classList.add('card-text');
+            cardText.innerHTML = (`${peliculas.Plot}`);
+            cardBody.appendChild(cardText);  
+
+            let eliminarBoton = document.createElement('button');
             eliminarBoton.classList.add('eliminar');
             eliminarBoton.classList.add('btn');
             eliminarBoton.classList.add('btn-danger');
-
-            title.innerHTML = (`${peliculas.Title}`);
-            cardText.innerHTML = (`${peliculas.Plot}`);
-            genero.innerHTML = (`${peliculas.Genre}`);
             eliminarBoton.innerHTML = 'Eliminar';
+            cardBody.appendChild(eliminarBoton);  
 
-            poster.setAttribute("src", `${peliculas.Poster}`)
+            listaVacia.classList.add('d-none');
 
-            main.appendChild(card);
-            card.appendChild(poster);
-            card.appendChild(cardBody);
-            cardBody.appendChild(title);
-            cardBody.appendChild(genero);
-            cardBody.appendChild(cardText);       
-            card.appendChild(div);
-            div.appendChild(eliminarBoton);
-            
             eliminarBoton.addEventListener('click', () => {
                 eliminarPelicula(peliculas);
                 listaPeliculas();
-            })
+            });
         }
     }
 }

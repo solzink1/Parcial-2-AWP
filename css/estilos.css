@@ -165,3 +165,10 @@ img{
 span{
   font-weight: bold;
 }
+
+.video{
+  width: 100%;
+  height: calc(60vw * 0.5625);
+  max-width: 560px;
+  max-height: 315px;
+}

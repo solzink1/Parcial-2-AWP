@@ -9,9 +9,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="manifest" href="manifest.json" />
     <link href="css/estilos.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/icons/icon.png">
     <title>Zink Sol DWN3A - Aplicaciones Web Progresivas TP2</title>
-
-
   </head>
   <body class="h-100 d-flex text-center text-white">
     
@@ -29,24 +28,22 @@
 
     <main id="main">
     </main>
-    <div id="contenido">
+    <div id="lista-vacia">
+    <p class="lead">¡Todavia no agregaste peliculas a la lista!</p>
+    <a class="btn btn-outline-light" href="index.html">Agregar nueva pelicula</a>
     </div>
 
   <footer class="mt-auto text-white-50">
     <p>Zink Sol DWN3A - Aplicaciones Web Progresivas</p>
-    <div id="estado1">
-        <button class="btn btn-success" id="button" type="button" disabled>
-         Online
-        </button>
-    </div>
+    <button class="btn btn-success" id="button" type="button" disabled>
+    </button>
   </footer>
 </div>  
     <script src="js/bootstrap.min.js"></script>
     <script src="js/register.js"></script>
     <script src="js/main.js"></script>
     <script>
-        listaPeliculas();
-        listaVacia();
+      listaPeliculas();
     </script>    
   </body>
 </html>
